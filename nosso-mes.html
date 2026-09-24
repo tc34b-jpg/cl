@@ -1,0 +1,126 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>1 mês de nós 💕</title>
+<style>
+:root{--bg:#fff3f6;--fg:#3a1f2b;--card:#ffffff;--accent:#e0457b;--muted:#8a6272;--line:#f5d3de;
+box-sizing:border-box;padding-top:env(safe-area-inset-top,0px);padding-bottom:env(safe-area-inset-bottom,0px)}
+@media (prefers-color-scheme:dark){:root:not([data-theme="light"]){--bg:#1d1016;--fg:#fbe8ee;--card:#2a1721;--accent:#ff6b9d;--muted:#c9a0b0;--line:#4a2937}}
+:root[data-theme="dark"]{--bg:#1d1016;--fg:#fbe8ee;--card:#2a1721;--accent:#ff6b9d;--muted:#c9a0b0;--line:#4a2937}
+html{scroll-padding-top:env(safe-area-inset-top,0px)}
+*{box-sizing:border-box}
+body{margin:0;background:var(--bg);color:var(--fg);font-family:Georgia,'Times New Roman',serif;line-height:1.55}
+main{max-width:560px;margin:0 auto;padding:28px 18px 60px}
+h1{font-size:2.1rem;text-align:center;margin:10px 0 4px;color:var(--accent)}
+.sub{text-align:center;color:var(--muted);margin:0 0 26px}
+section{background:var(--card);border:1px solid var(--line);border-radius:18px;padding:20px;margin-bottom:18px}
+h2{margin:0 0 12px;font-size:1.2rem}
+.count{display:grid;grid-template-columns:repeat(4,1fr);gap:8px;text-align:center}
+.count b{display:block;font-size:1.8rem;color:var(--accent)}
+.count span{font-size:.75rem;color:var(--muted);font-family:system-ui,sans-serif}
+button{font:inherit;background:var(--accent);color:#fff;border:0;border-radius:12px;padding:11px 16px;cursor:pointer}
+
+/* 📜 Suavização da carta */
+#carta {
+  white-space: pre-line;
+  margin-top: 14px;
+  max-height: 3000px;
+  opacity: 1;
+  overflow: hidden;
+  transition: max-height 0.5s ease-in-out, opacity 0.4s ease-in-out, margin-top 0.3s ease;
+}
+#carta.hidden {
+  display: block;
+  max-height: 0;
+  opacity: 0;
+  margin-top: 0;
+  pointer-events: none;
+}
+
+ul{list-style:none;padding:0;margin:0}
+li{padding:10px 0;border-bottom:1px solid var(--line)}
+li:last-child{border:0}
+li small{display:block;color:var(--muted)}
+li a{color:var(--accent);text-decoration:none}
+.hidden{display:none}
+</style>
+</head>
+<body>
+<main>
+  <h1>1 mês de nós 💕</h1>
+  <p class="sub" id="sub"></p>
+
+  <section>
+    <h2>⏳ Tempo juntos</h2>
+    <div class="count">
+      <div><b id="d">0</b><span>dias</span></div>
+      <div><b id="h">0</b><span>horas</span></div>
+      <div><b id="m">0</b><span>min</span></div>
+      <div><b id="s">0</b><span>seg</span></div>
+    </div>
+  </section>
+
+  <section>
+    <h2>💌 Uma cartinha pra você</h2>
+    <button id="btnCarta">Abrir</button>
+    <div id="carta" class="hidden"></div>
+  </section>
+
+  <section id="secSongs" class="hidden">
+    <h2>🎵 Nossas músicas</h2>
+    <ul id="songs"></ul>
+  </section>
+
+</main>
+
+<script>
+const NOME_DELA = "Liah";
+const SEU_NOME = "Talles";
+const INICIO = new Date(2026, 7, 28, 23, 9); // 28/08/2026 às 23:09
+
+const CARTA = `My beloved Liah kdks
+
+Olhando agora para o tempo, parece que passamos pela W Corp, porque porra KKK já faz um mês que estamos juntos (e eu estava na cápsula ao seu lado ksks). Genuinamente, eu adorei cada dia que passamos juntos, e vou continuar adorando a cada dia que passar, só por estar ao seu lado e ter a sua conversa como a melhor e mais calmante de todas. Porque, não importa como foi o meu dia, você sempre me acalma (se for um dia ruim) e melhora a minha visão de tudo!
+
+Sinceramente, eu sempre solto um sorriso quando vejo algo que me lembra você — seja asas, espelhos ou, principalmente, coelhinho. Eu só, sei lá, solto um sorriso bobo, porque eu te enxergo lá naquele objeto ou animalzinho. Coisa de que eu nunca vou querer me desfazer ksksks.
+
+Você foi a melhor companhia que eu já tive. Nada nunca vai conseguir superar a sua companhia, sua voz, suas besteiras que eu amo demais, seu rosto lindo, o seu modo de falar e, principalmente, você. Sinta-se especial para mim, vida! Porque, com toda a certeza do mundo, você é! E eu falo com todo o orgulho que eu te amo e muito, e não é um amor provisório não, viu? Eu vou te amar até se a morte intervir: na paz, na guerra, na saúde, na doença, no claro ou no escuro. Aonde você quiser, eu estarei lá por você.
+
+Com amor e carinho do seu namorado, Talles ♥️`;
+
+const MUSICAS = [
+  { t: "From a place of love", a: "Mili", n: "Nossa trilha especial" },
+  { t: "Mulher de fases", a: "Raimundos", n: "Para todos os nossos momentos" },
+  { t: "Fly, my wings", a: "Mili", n: "Voando alto juntos 🚀" }
+];
+
+document.getElementById("sub").textContent = `${SEU_NOME} & ${NOME_DELA} · desde ${INICIO.toLocaleDateString("pt-BR")}`;
+
+function tick(){
+  let diff = Math.max(0, Date.now() - INICIO.getTime()) / 1000;
+  const d = Math.floor(diff/86400); diff -= d*86400;
+  const h = Math.floor(diff/3600); diff -= h*3600;
+  const m = Math.floor(diff/60);
+  document.getElementById("d").textContent = d;
+  document.getElementById("h").textContent = h;
+  document.getElementById("m").textContent = m;
+  document.getElementById("s").textContent = Math.floor(diff - m*60);
+}
+tick(); setInterval(tick, 1000);
+
+const carta = document.getElementById("carta");
+carta.textContent = CARTA;
+document.getElementById("btnCarta").onclick = function(){
+  carta.classList.toggle("hidden");
+  this.textContent = carta.classList.contains("hidden") ? "Abrir" : "Fechar";
+};
+
+if(MUSICAS.length) document.getElementById("secSongs").classList.remove("hidden");
+document.getElementById("songs").innerHTML = MUSICAS.map(s =>
+  `<li>🎶 <b>${s.t}</b> — ${s.a}<small>${s.n}</small></li>`).join("");
+
+</script>
+</body>
+</html>
